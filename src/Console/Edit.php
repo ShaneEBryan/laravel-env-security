@@ -79,13 +79,8 @@ class Edit extends Command
 
         $process = new Process([config('env-security.editor'), $meta['uri']]);
         $process->setTimeout(null);
-        $process->setTty(Process::isTtySupported());
+        $process->setTty(true);
         $process->mustRun();
-        if (!Process::isTtySupported()) {
-          while (empty(file_get_contents($meta['uri'])) || file_get_contents($meta['uri']) === $contents) {
-            sleep(2);
-          }
-        }
 
         return file_get_contents($meta['uri']);
     }
